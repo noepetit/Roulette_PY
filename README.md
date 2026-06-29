@@ -1,4 +1,5 @@
-# Roulette_PY
+:w
+## Roulette_PY
 création d'un roulette anglaise de casino en python
 
 # Chose à faire
@@ -8,6 +9,9 @@ création d'un roulette anglaise de casino en python
 * comparer le nombre choisi par l'utilisateur avec le nombre tiré au hasard.
 * afficher le resultat
 
-# a completer ulterieurement
+# fait en après 
+*dexième mini-jeu ou il faut deviner une couleur 
+# à completer ulterieurement
+:i
 * faire appairaitre une matrice pour que ce soit plus parlant
 * ajouter un système de mise
