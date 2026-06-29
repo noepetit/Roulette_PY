@@ -1,4 +1,4 @@
-:w
+
 ## Roulette_PY
 création d'un roulette anglaise de casino en python
 
@@ -10,8 +10,8 @@ création d'un roulette anglaise de casino en python
 * afficher le resultat
 
 # fait en après 
-*dexième mini-jeu ou il faut deviner une couleur 
+* dexième mini-jeu ou il faut deviner une couleur
+  
 # à completer ulterieurement
-:i
 * faire appairaitre une matrice pour que ce soit plus parlant
 * ajouter un système de mise
