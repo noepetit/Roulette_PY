@@ -2,7 +2,7 @@
 # Roulette_PY
 création d'un roulette anglaise de casino en python
 
-## Chose à faire
+## Chose faite
 * un affichage pour demander un nombre compris entre 0 et 36
 * Attribuer une couleur au nombre choisi
 * tirer un nombre "aleatoire" avec random entre 0 et 36
