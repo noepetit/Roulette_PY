@@ -27,17 +27,11 @@ def nombre_aleatoire():
 
 def compare(nombre_choisi, nombre_aleatoire,couleur):
     if nombre_choisi == nombre_aleatoire:
-        return winner1(nombre_aleatoire,couleur)
+        print()
+        print("---> Vous avez gagné ! ", "\n ", "Le nombre tiré etait : ", nombre_aleatoire, "|| couleur : ", couleur)
     else:
-        return loser1(nombre_aleatoire, couleur)
-
-def loser1(nombre_aleatoire, couleur):
-    print()
-    print("---> Vous avez perdu ! ""\n ","Le nombre tiré etait : ", nombre_aleatoire, "couleur : ", couleur)
-
-def winner1(nombre_aleatoire, couleur):
-    print()
-    print("---> Vous avez gagné ! ", "\n ","Le nombre tiré etait : ", nombre_aleatoire, "|| couleur : ", couleur)
+        print()
+        print("---> Vous avez perdu ! ""\n ", "Le nombre tiré etait : ", nombre_aleatoire, "couleur : ", couleur)
 
 def restart(prenom):
     print()
@@ -47,9 +41,9 @@ def restart(prenom):
         case "1":
             main(prenom)
         case "o":
-            main1(prenom)
+            devinne_le_nombre(prenom)
         case "oui":
-            main1(prenom)
+            devinne_le_nombre(prenom)
         case "n":
             print("merci d'avoir joué", prenom, "à bientot !")
             exit()
@@ -58,7 +52,7 @@ def restart(prenom):
             exit()
     restart(prenom)
 
-def main1(prenom):
+def devinne_le_nombre(prenom):
     nombre_choisi = choix_nombre()
     couleur = couleurDuNombre(nombre_choisi)
     print("|--------------------|")
@@ -70,7 +64,7 @@ def main1(prenom):
 
 # mode de jeu pour deviner la couleur
 
-def main2(prenom):
+def devinne_la_couleur(prenom):
     couleur = choix_couleur()
     print("|--------------------|")
     print("| Couleur choisi : ", couleur, "|")
@@ -79,20 +73,13 @@ def main2(prenom):
     compare_couleur(couleur, couleur_genere, prenom)
 
 
-def loser2(couleur):
-    print()
-    print("---> Vous avez perdu ! ""\n ","La couleur tiré etait : ", couleur)
-
-def winner2(couleur):
-    print()
-    print("---> Vous avez gagné ! ", "\n ","La couleur tiré etait : ", couleur)
-
-
 def compare_couleur(couleur, couleur_genere, prenom):
     if couleur == couleur_genere:
-        return winner2(couleur_genere)
+        print()
+        print("---> Vous avez gagné ! ", "\n ", "La couleur tiré etait : ", couleur)
     else:
-        return loser2(couleur_genere)
+        print()
+        print("---> Vous avez perdu ! ""\n ", "La couleur tiré etait : ", couleur)
 
 def choix_couleur():
     couleur = ["vert", "rouge", "noir"]
@@ -115,13 +102,15 @@ def main(prenom):
     while True:
         print("deux mode sont disponibles :", "\n", "1- DEVINETTE NOMBRE", "\n", "2- DEVINETTE COULEUR")
         choix = int(input("Veuillez choisir un mode de jeu : "))
+        if choix != 1 and choix != 2:
+            main(prenom)
         match choix:
             case 1:
-                main1(prenom)
+                devinne_le_nombre(prenom)
             case 2:
-                main2(prenom)
-        restart(prenom)
+                devinne_la_couleur(prenom)
 
+        restart(prenom)
 
 if __name__ == '__main__':
     prenom = input("Entrez votre prenom : ")
@@ -132,5 +121,4 @@ if __name__ == '__main__':
     print("     |----------------------------------------------------------------|")
     print()
     main(prenom)
-
 
