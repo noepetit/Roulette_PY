@@ -28,10 +28,10 @@ def nombre_aleatoire():
 def compare(nombre_choisi, nombre_aleatoire,couleur):
     if nombre_choisi == nombre_aleatoire:
         print()
-        print("---> Vous avez gagné ! ", "\n ", "Le nombre tiré etait : ", nombre_aleatoire, "|| couleur : ", couleur)
+        print("---> Vous avez gagné ! ", "\n ", "Le nombre tiré etait : ", nombre_aleatoire, "|| couleur.py : ", couleur)
     else:
         print()
-        print("---> Vous avez perdu ! ""\n ", "Le nombre tiré etait : ", nombre_aleatoire, "couleur : ", couleur)
+        print("---> Vous avez perdu ! ""\n ", "Le nombre tiré etait : ", nombre_aleatoire, "couleur.py : ", couleur)
 
 def restart(prenom):
     print()
@@ -57,12 +57,12 @@ def devinne_le_nombre(prenom):
     couleur = couleurDuNombre(nombre_choisi)
     print("|--------------------|")
     print("| Nombre choisi : ", nombre_choisi, "|")
-    print("| couleur : ", couleur, "   |")
+    print("| couleur.py : ", couleur, "   |")
     print("|--------------------|")
     nombre_genere = nombre_aleatoire()
     compare(nombre_choisi, nombre_genere, couleur)
 
-# mode de jeu pour deviner la couleur
+# mode de jeu pour deviner la couleur.py
 
 def devinne_la_couleur(prenom):
     couleur = choix_couleur()
@@ -76,15 +76,15 @@ def devinne_la_couleur(prenom):
 def compare_couleur(couleur, couleur_genere, prenom):
     if couleur == couleur_genere:
         print()
-        print("---> Vous avez gagné ! ", "\n ", "La couleur tiré etait : ", couleur)
+        print("---> Vous avez gagné ! ", "\n ", "La couleur.py tiré etait : ", couleur)
     else:
         print()
-        print("---> Vous avez perdu ! ""\n ", "La couleur tiré etait : ", couleur)
+        print("---> Vous avez perdu ! ""\n ", "La couleur.py tiré etait : ", couleur)
 
 def choix_couleur():
     couleur = ["vert", "rouge", "noir"]
     try:
-        couleur_c = input("Veuillez choisir une couleur : ")
+        couleur_c = input("Veuillez choisir une couleur.py : ")
     except ValueError:
         return choix_couleur()
     if couleur_c not in couleur:
