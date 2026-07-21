@@ -53,3 +53,4 @@ def affichage_Matrice():
     print()
     for ligne in pari_bas:
         print(ligne, end="")
+    print()

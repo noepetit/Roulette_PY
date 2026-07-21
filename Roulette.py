@@ -16,20 +16,22 @@ def dmd_solde_total():
 
 
 def start(soldeTotal):
-    ready = input("Êtes vous près ? (oui/non)")
-    if ready == "oui":
-        main(soldeTotal)
-    elif ready == "non":
-        print("pourquoi faire ??????")
-        exit()
-    else :
-        start()
+    try:
+        ready = input("Êtes vous près ? (oui/non)")
+        if ready == "oui":
+            main(soldeTotal)
+        if ready == "non":
+            print("pourquoi faire ??????")
+            exit()
+        else:
+            start(soldeTotal)
+    except ValueError:
+        start(soldeTotal)
 
 
 #---------------------      fonction de main
-def pari(soldeTotal, nombreAleatoire):
-    paris = []
-
+def pari(soldeTotal, paris):
+    affichage_Matrice()
     type = int(input("1- Numéro \n"
                      "2- Couleur \n"
                      "3- Pair / Impair \n"
@@ -37,8 +39,8 @@ def pari(soldeTotal, nombreAleatoire):
                      "5- 1 à 18 ou 19 à 36 \n"
                      "0- Pour arrêter le pari"))
     match type:
-        case "1":
-            pariNumero(paris)
+        case 1:
+            pariNumero(paris, soldeTotal)
         case "2":
             pariCouleur(paris)
         case "3":
@@ -50,16 +52,36 @@ def pari(soldeTotal, nombreAleatoire):
         case "0":
             exit()
 
+def choix_montant(soldeTotal):
+    try :
+        montant = int(input("Entrez le montant que vous souhaitez parier : "))
+        if montant > soldeTotal:
+            print("Vous n'avez pas assez de crédits ! \n")
+            return choix_montant(soldeTotal)
+        else:
+            return montant
 
+    except ValueError:
+        return choix_montant(soldeTotal)
 
-def pariNumero(paris):
-
+def pariNumero(paris, soldeTotal):
     while True:
         try:
-            pari = int(input("Entrez un nombre : "))
-            paris.append(pari)
+            pariJ = int(input("Entrez un nombre sur lequel vous voulez parier : "))
+            if pariJ == -1:
+                return pari(soldeTotal, paris)
+            if pariJ < 0 or pariJ > 36:
+                print("Nombre indisponible sur une roulette allant de 0 à 36")
+                return pariNumero(paris, soldeTotal)
+            montant = choix_montant(soldeTotal)
+            soldeTotal = soldeTotal - montant
+            paris.append(("numéros" , pariJ, montant))
+            print(paris)
+            print(soldeTotal)
+            if soldeTotal ==0:                  ### changer le return pour le faire correspondre
+                return pari(soldeTotal, paris)  ### à la fin des paris
         except ValueError:
-            return pari(), paris
+            return pariNumero(paris, soldeTotal)
 
 def pariCouleur(paris):
     return 0
@@ -85,9 +107,10 @@ def genererNombreAleatoire():
 def main(soldeTotal):
     solde = soldeTotal
     #while True :
-    affichage_Matrice()
     nombreAleatoire = genererNombreAleatoire()
-    pari(soldeTotal, nombreAleatoire)
+    pari(soldeTotal, paris = [
+
+    ])
 
 
 
