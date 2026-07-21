@@ -1,123 +1,125 @@
-import random as rdm
+import random as rnd
 
-# mode de jeu pour deviner le nmobre
-def couleurDuNombre(nb):
-    rouge = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]
-    noir = [2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35]
-    if nb == 0:
-        return "vert"
-    if nb in rouge:
-        return "rouge"
-    if nb in noir:
-        return "noir"
+from Affichage import affichage_Matrice
 
-def choix_nombre():
-    try:
-        nombre_c = int(input("Veuillez choisir un nombre entre 0 et 36 : "))
+#---------------------      Mise ne place
+def dmd_solde_total():
+    print("----    solde minimum : 1€ || solde maximum 5000€    ----")
+    try :
+        solde = int(input("Entrez votre solde : "))
     except ValueError:
-        return choix_nombre()
-    if nombre_c < 0 or nombre_c > 36:
-        return choix_nombre()
-    else:
-        return nombre_c
-
-def nombre_aleatoire():
-    nb_al = rdm.randint(0,36)
-    return nb_al
-
-def compare(nombre_choisi, nombre_aleatoire,couleur):
-    if nombre_choisi == nombre_aleatoire:
-        print()
-        print("---> Vous avez gagné ! ", "\n ", "Le nombre tiré etait : ", nombre_aleatoire, "|| couleur : ", couleur)
-    else:
-        print()
-        print("---> Vous avez perdu ! ""\n ", "Le nombre tiré etait : ", nombre_aleatoire, "couleur : ", couleur)
-
-def restart(prenom):
-    print()
-    print("Voulez-vous rejouer ?")
-    choix = input(" oui || non && si vous voulez changer de mode (1) ")
-    match choix:
-        case "1":
-            main(prenom)
-        case "o":
-            devinne_le_nombre(prenom)
-        case "oui":
-            devinne_le_nombre(prenom)
-        case "n":
-            print("merci d'avoir joué", prenom, "à bientot !")
-            exit()
-        case "non":
-            print("merci d'avoir joué", prenom, "à bientot !")
-            exit()
-    restart(prenom)
-
-def devinne_le_nombre(prenom):
-    nombre_choisi = choix_nombre()
-    couleur = couleurDuNombre(nombre_choisi)
-    print("|--------------------|")
-    print("| Nombre choisi : ", nombre_choisi, "|")
-    print("| couleur : ", couleur, "   |")
-    print("|--------------------|")
-    nombre_genere = nombre_aleatoire()
-    compare(nombre_choisi, nombre_genere, couleur)
-
-# mode de jeu pour deviner la couleur
-
-def devinne_la_couleur(prenom):
-    couleur = choix_couleur()
-    print("|--------------------|")
-    print("| Couleur choisi : ", couleur, "|")
-    print("|--------------------|")
-    couleur_genere = couleur_aleatoire()
-    compare_couleur(couleur, couleur_genere, prenom)
+        return  dmd_solde_total()
+    if solde < 1 or solde > 5000:
+        return dmd_solde_total()
+    print("Vous avez : ", solde, "€ !")
+    return solde
 
 
-def compare_couleur(couleur, couleur_genere, prenom):
-    if couleur == couleur_genere:
-        print()
-        print("---> Vous avez gagné ! ", "\n ", "La couleur tiré etait : ", couleur)
-    else:
-        print()
-        print("---> Vous avez perdu ! ""\n ", "La couleur tiré etait : ", couleur)
-
-def choix_couleur():
-    couleur = ["vert", "rouge", "noir"]
+def start(soldeTotal):
     try:
-        couleur_c = input("Veuillez choisir une couleur : ")
+        ready = input("Êtes vous près ? (oui/non)")
+        if ready == "oui":
+            main(soldeTotal)
+        if ready == "non":
+            print("pourquoi faire ??????")
+            exit()
+        else:
+            start(soldeTotal)
     except ValueError:
-        return choix_couleur()
-    if couleur_c not in couleur:
-        return choix_couleur()
-    else:
-        return couleur_c
+        start(soldeTotal)
 
-def couleur_aleatoire():
-    couleur = ["vert", "rouge", "noir"]
-    nb = rdm.randint(0, 2)
-    couleur = couleur[nb]
-    return couleur
 
-def main(prenom):
+#---------------------      fonction de main
+def pari(soldeTotal, paris):
+    affichage_Matrice()
+    type = int(input("1- Numéro \n"
+                     "2- Couleur \n"
+                     "3- Pair / Impair \n"
+                     "4- Douzaine \n"
+                     "5- 1 à 18 ou 19 à 36 \n"
+                     "0- Pour arrêter le pari"))
+    match type:
+        case 1:
+            pariNumero(paris, soldeTotal)
+        case "2":
+            pariCouleur(paris)
+        case "3":
+            pariPairImpair(paris)
+        case "4":
+            paridouzaine(paris)
+        case "5":
+            pariManquePasse(paris)
+        case "0":
+            exit()
+
+def choix_montant(soldeTotal):
+    try :
+        montant = int(input("Entrez le montant que vous souhaitez parier : "))
+        if montant > soldeTotal:
+            print("Vous n'avez pas assez de crédits ! \n")
+            return choix_montant(soldeTotal)
+        else:
+            return montant
+
+    except ValueError:
+        return choix_montant(soldeTotal)
+
+def pariNumero(paris, soldeTotal):
     while True:
-        print("deux mode sont disponibles :", "\n", "1- DEVINETTE NOMBRE", "\n", "2- DEVINETTE COULEUR")
-        choix = int(input("Veuillez choisir un mode de jeu : "))
-        if choix != 1 and choix != 2:
-            main(prenom)
-        match choix:
-            case 1:
-                devinne_le_nombre(prenom)
-            case 2:
-                devinne_la_couleur(prenom)
+        try:
+            pariJ = int(input("Entrez un nombre sur lequel vous voulez parier : "))
+            if pariJ == -1:
+                return pari(soldeTotal, paris)
+            if pariJ < 0 or pariJ > 36:
+                print("Nombre indisponible sur une roulette allant de 0 à 36")
+                return pariNumero(paris, soldeTotal)
+            montant = choix_montant(soldeTotal)
+            soldeTotal = soldeTotal - montant
+            paris.append(("numéros" , pariJ, montant))
+            print(paris)
+            print(soldeTotal)
+            if soldeTotal ==0:                  ### changer le return pour le faire correspondre
+                return pari(soldeTotal, paris)  ### à la fin des paris
+        except ValueError:
+            return pariNumero(paris, soldeTotal)
 
-        restart(prenom)
+def pariCouleur(paris):
+    return 0
+
+def pariPairImpair(paris):
+    return 0
+
+
+def paridouzaine(paris):
+    return 0
+
+
+def pariManquePasse(paris):
+    return 0
+
+def genererNombreAleatoire():
+    nombreAleatoire = rnd.randint(0, 36)
+    return nombreAleatoire
+
+
+
+#---------------------      Main
+def main(soldeTotal):
+    solde = soldeTotal
+    #while True :
+    nombreAleatoire = genererNombreAleatoire()
+    pari(soldeTotal, paris = [
+
+    ])
+
+
+
 
 if __name__ == '__main__':
-    prenom = input("Entrez votre prenom : ")
-    print("Bienvenue " + prenom + " !")
-    print()
     print("     |----------------------------------------------------------------|")
-    print("     |    Ceci est une roulette anglaise, faite le bon pronostique !  |")
+    print("     |    Ceci est une roulette européenne, Rien ne vas plus !        |")
     print("     |----------------------------------------------------------------|")
     print()
-    main(prenom)
+    soldeTotal = dmd_solde_total()
+    print()
+    start(soldeTotal)
