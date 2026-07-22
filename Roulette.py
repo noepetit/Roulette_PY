@@ -91,8 +91,8 @@ def pariCouleur(paris, soldeTotal):
         pariJ = str(input("Entrez une couleur sur laquel vous voulez parier : "))
         if pariJ == "-1":
             return pari(paris, soldeTotal)
-        if pariJ != "rouge" and pariJ != "noir":
-            print(f"\033[31m{"Couleur Invalide !"}\033[0m")
+        if pariJ != "rouge" or pariJ != "noir":
+            print(f"\033[31m{"Couleur invalide !"}\033[0m")
             return pariCouleur(paris, soldeTotal)
         montant = choix_montant(soldeTotal)
         soldeTotal = soldeTotal - montant
@@ -101,6 +101,7 @@ def pariCouleur(paris, soldeTotal):
         #else: return pari(paris, soldeTotal)
         print(f"\033[32m{"Pari ajouté !"}\033[0m")
         if soldeTotal == 0: return pari(paris, soldeTotal)      ### aller sur la fin de pari -> solde à 0
+        return pari(paris, soldeTotal)
     except ValueError:
         print(f"\033[31m{"Couleur invalide !"}\033[0m")
         return pariCouleur(paris, soldeTotal)
@@ -111,8 +112,8 @@ def pariPairImpair(paris, soldeTotal):
         pariJ = str(input("Le numero tiré va être \"pair\" ou \"impair\""))
         if pariJ == "-1":
             return pari(paris, soldeTotal)
-        if pariJ != "pair" and pariJ != "impair":
-            print(f"\033[31m{"Pari Invalide !"}\033[0m")
+        if pariJ != "pair" or pariJ != "impair":
+            print(f"\033[31m{"Pari invalide !"}\033[0m")
             return pariPairImpair(paris, soldeTotal)
         montant = choix_montant(soldeTotal)
         soldeTotal = soldeTotal - montant
@@ -121,13 +122,32 @@ def pariPairImpair(paris, soldeTotal):
         # else: return pari(paris, soldeTotal)
         print(f"\033[32m{"Pari ajouté !"}\033[0m")
         if soldeTotal == 0: return pari(paris, soldeTotal)  ### aller sur la fin de pari -> solde à 0
+        return pari(paris, soldeTotal)
     except ValueError:
         print(f"\033[31m{"Pari invalide !"}\033[0m")
         return pariPairImpair(paris, soldeTotal)
 
 
 def paridouzaine(paris, soldeTotal):
-    return 0
+    try:
+        pariJ = str(input("Le numero tiré va être dans la \"1ere12\", \"2eme12\" ou \"3eme12\""))
+        if pariJ == "-1":
+            return pari(paris, soldeTotal)
+        if pariJ != "1ere12" or pariJ != "2eme12" or pariJ != "3eme12":
+            print(f"\033[31m{"Pari douzaine invalide !"}\033[0m")
+            return pariPairImpair(paris, soldeTotal)
+        montant = choix_montant(soldeTotal)
+        soldeTotal = soldeTotal - montant
+        if pariJ == "1ere12": paris.append(("Douzaine", "1ere12", montant))
+        if pariJ == "2eme12": paris.append(("Douzaine", "2eme12", montant))
+        if pariJ == "3eme12": paris.append(("Douzaine", "3eme12", montant))
+        # else: return pari(paris, soldeTotal)
+        print(f"\033[32m{"Pari ajouté !"}\033[0m")
+        if soldeTotal == 0: return pari(paris, soldeTotal)  ### aller sur la fin de pari -> solde à 0
+        return pari(paris, soldeTotal)
+    except ValueError:
+        print(f"\033[31m{"Pari invalide !"}\033[0m")
+        return pariPairImpair(paris, soldeTotal)
 
 
 def pariManquePasse(paris, soldeTotal):
