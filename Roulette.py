@@ -30,7 +30,7 @@ def start(soldeTotal):
 
 
 #---------------------      fonction de main
-def pari(soldeTotal, paris):
+def pari(paris, soldeTotal):
     affichage_Matrice()
     print(paris)
     type = int(input("1- Numéro \n"
@@ -45,7 +45,7 @@ def pari(soldeTotal, paris):
             pariNumero(paris, soldeTotal)
         case 2:
             pariCouleur(paris, soldeTotal)
-        case "3":
+        case 3:
             pariPairImpair(paris, soldeTotal)
         case "4":
             paridouzaine(paris, soldeTotal)
@@ -72,7 +72,7 @@ def pariNumero(paris, soldeTotal):
         try:
             pariJ = int(input("Entrez un nombre sur lequel vous voulez parier : "))
             if pariJ == -1:
-                return pari(soldeTotal, paris)
+                return pari(paris, soldeTotal)
             if pariJ < 0 or pariJ > 36:
                 print(f"\033[31m{"Nombre indisponible sur une roulette allant de 0 à 36"}\033[0m")
                 return pariNumero(paris, soldeTotal)
@@ -81,7 +81,7 @@ def pariNumero(paris, soldeTotal):
             paris.append(("numéros" , pariJ, montant))
             print(f"\033[32m{"Pari ajouté !"}\033[0m")
             if soldeTotal ==0:                  ### changer le return pour le faire correspondre
-                return pari(soldeTotal, paris)  ### à la fin des paris
+                return pari(paris, soldeTotal)  ### à la fin des paris
         except ValueError:
             print(f"\033[31m{"Nombre invalide !"}\033[0m")
             return pariNumero(paris, soldeTotal)
@@ -90,24 +90,40 @@ def pariCouleur(paris, soldeTotal):
     try:
         pariJ = str(input("Entrez une couleur sur laquel vous voulez parier : "))
         if pariJ == "-1":
-            return pari(soldeTotal, paris)
+            return pari(paris, soldeTotal)
         if pariJ != "rouge" and pariJ != "noir":
             print(f"\033[31m{"Couleur Invalide !"}\033[0m")
             return pariCouleur(paris, soldeTotal)
         montant = choix_montant(soldeTotal)
         soldeTotal = soldeTotal - montant
-        if soldeTotal == 0: return pari(soldeTotal, paris)
-        if pariJ == "rouge": paris.append(("rouge", montant))
-        if pariJ == "noir": paris.append(("noir", montant))
-        else: return pari(soldeTotal, paris)
+        if pariJ == "rouge": paris.append(("Couleur", "rouge", montant))
+        if pariJ == "noir": paris.append(("Couleur","noir", montant))
+        #else: return pari(paris, soldeTotal)
         print(f"\033[32m{"Pari ajouté !"}\033[0m")
+        if soldeTotal == 0: return pari(paris, soldeTotal)      ### aller sur la fin de pari -> solde à 0
     except ValueError:
         print(f"\033[31m{"Couleur invalide !"}\033[0m")
         return pariCouleur(paris, soldeTotal)
 
 
 def pariPairImpair(paris, soldeTotal):
-    return 0
+    try:
+        pariJ = str(input("Le numero tiré va être \"pair\" ou \"impair\""))
+        if pariJ == "-1":
+            return pari(paris, soldeTotal)
+        if pariJ != "pair" and pariJ != "impair":
+            print(f"\033[31m{"Pari Invalide !"}\033[0m")
+            return pariPairImpair(paris, soldeTotal)
+        montant = choix_montant(soldeTotal)
+        soldeTotal = soldeTotal - montant
+        if pariJ == "pair": paris.append(("P/I", "pair", montant))
+        if pariJ == "noir": paris.append(("P/I", "impair", montant))
+        # else: return pari(paris, soldeTotal)
+        print(f"\033[32m{"Pari ajouté !"}\033[0m")
+        if soldeTotal == 0: return pari(paris, soldeTotal)  ### aller sur la fin de pari -> solde à 0
+    except ValueError:
+        print(f"\033[31m{"Pari invalide !"}\033[0m")
+        return pariPairImpair(paris, soldeTotal)
 
 
 def paridouzaine(paris, soldeTotal):
@@ -128,9 +144,7 @@ def main(soldeTotal):
     solde = soldeTotal
     #while True :
     nombreAleatoire = genererNombreAleatoire()
-    pari(soldeTotal, paris = [
-
-    ])
+    pari(paris = [], soldeTotal = soldeTotal)
 
 
 
