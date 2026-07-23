@@ -32,7 +32,7 @@ def start(soldeTotal):
 #---------------------      fonction de main
 def pari(paris, soldeTotal):
     affichage_Matrice()
-    print(paris)
+    print("Il vous reste ", soldeTotal, " crédits !")
     try :
         type = int(input("1- Numéro \n"
                      "2- Couleur \n"
@@ -53,8 +53,12 @@ def pari(paris, soldeTotal):
             case 5:
                 pariManquePasse(paris, soldeTotal)
             case 0:
-                exit()
+                return finPari(paris, soldeTotal)
+            case _:
+                print(f"\033[31m{"Saisi invalide !"}\033[0m")
+                return pari(paris, soldeTotal)
     except ValueError:
+        print(f"\033[31m{"Saisi invalide !"}\033[0m")
         return pari(paris, soldeTotal)
 def choix_montant(soldeTotal):
     try :
@@ -70,9 +74,10 @@ def choix_montant(soldeTotal):
         return choix_montant(soldeTotal)
 
 def pariNumero(paris, soldeTotal):
-    if soldeTotal == 0:  ### changer le return pour le faire correspondre
-        return pari(paris, soldeTotal)  ### à la fin des paris
+
     while True:
+        if soldeTotal == 0:  ### changer le return pour le faire correspondre
+            return finPari(paris, soldeTotal)  ### à la fin des paris
         try:
             pariJ = int(input("Entrez un nombre sur lequel vous voulez parier : "))
             if pariJ == -1:
@@ -84,8 +89,6 @@ def pariNumero(paris, soldeTotal):
             soldeTotal = soldeTotal - montant
             paris.append(("numéros" , pariJ, montant))
             print(f"\033[32m{"Pari ajouté !"}\033[0m")
-            if soldeTotal ==0:                  ### changer le return pour le faire correspondre
-                return pari(paris, soldeTotal)  ### à la fin des paris
         except ValueError:
             print(f"\033[31m{"Nombre invalide !"}\033[0m")
             return pariNumero(paris, soldeTotal)
@@ -104,7 +107,7 @@ def pariCouleur(paris, soldeTotal):
         if pariJ == "noir": paris.append(("Couleur","noir", montant))
         #else: return pari(paris, soldeTotal)
         print(f"\033[32m{"Pari ajouté !"}\033[0m")
-        if soldeTotal == 0: return pari(paris, soldeTotal)      ### aller sur la fin de pari -> solde à 0
+        if soldeTotal == 0: return finPari(paris, soldeTotal)   ### aller sur la fin de pari -> solde à 0
         return pari(paris, soldeTotal)
     except ValueError:
         print(f"\033[31m{"Couleur invalide !"}\033[0m")
@@ -122,10 +125,10 @@ def pariPairImpair(paris, soldeTotal):
         montant = choix_montant(soldeTotal)
         soldeTotal = soldeTotal - montant
         if pariJ == "pair": paris.append(("P/I", "pair", montant))
-        if pariJ == "noir": paris.append(("P/I", "impair", montant))
+        if pariJ == "impair": paris.append(("P/I", "impair", montant))
         # else: return pari(paris, soldeTotal)
         print(f"\033[32m{"Pari ajouté !"}\033[0m")
-        if soldeTotal == 0: return pari(paris, soldeTotal)  ### aller sur la fin de pari -> solde à 0
+        if soldeTotal == 0: return finPari(paris, soldeTotal)  ### aller sur la fin de pari -> solde à 0
         return pari(paris, soldeTotal)
     except ValueError:
         print(f"\033[31m{"Pari invalide !"}\033[0m")
@@ -142,12 +145,12 @@ def paridouzaine(paris, soldeTotal):
             return paridouzaine(paris, soldeTotal)
         montant = choix_montant(soldeTotal)
         soldeTotal = soldeTotal - montant
-        if pariJ == "1ere12": paris.append(("Douzaine", "1ere12", montant))
-        if pariJ == "2eme12": paris.append(("Douzaine", "2eme12", montant))
-        if pariJ == "3eme12": paris.append(("Douzaine", "3eme12", montant))
+        if pariJ == "1": paris.append(("Douzaine", "1ere12", montant))
+        if pariJ == "2": paris.append(("Douzaine", "2eme12", montant))
+        if pariJ == "3": paris.append(("Douzaine", "3eme12", montant))
         # else: return pari(paris, soldeTotal)
         print(f"\033[32m{"Pari ajouté !"}\033[0m")
-        if soldeTotal == 0: return pari(paris, soldeTotal)  ### aller sur la fin de pari -> solde à 0
+        if soldeTotal == 0: return finPari(paris, soldeTotal)  ### aller sur la fin de pari -> solde à 0
         return pari(paris, soldeTotal)
     except ValueError:
         print(f"\033[31m{"Pari invalide !"}\033[0m")
@@ -168,7 +171,7 @@ def pariManquePasse(paris, soldeTotal):
         if pariJ == "passe": paris.append(("Manque/passe", "passe", montant))
         # else: return pari(paris, soldeTotal)
         print(f"\033[32m{"Pari ajouté !"}\033[0m")
-        if soldeTotal == 0: return pari(paris, soldeTotal)  ### aller sur la fin de pari -> solde à 0
+        if soldeTotal == 0: return finPari(paris, soldeTotal)  ### aller sur la fin de pari -> solde à 0
         return pari(paris, soldeTotal)
     except ValueError:
         print(f"\033[31m{"Pari invalide !"}\033[0m")
@@ -178,7 +181,9 @@ def genererNombreAleatoire():
     nombreAleatoire = rnd.randint(0, 36)
     return nombreAleatoire
 
-
+def finPari(paris, soldeTotal):
+    print("-------------------------    FIN DU PARI    --------------------------")
+    print(paris)
 
 #---------------------      Main
 def main(soldeTotal):
