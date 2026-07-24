@@ -20,7 +20,7 @@ création d'un roulette anglaise de casino en python
 * affichage de la roulette sous forme de matrice V
 * trouver comment parcourir la string de pari et associer les pari a leur gain
   * parcourir string, séparateur entre chaque pari "&" si plusieurs paris
-
+----------------
   
 # Roulette en python
 
