@@ -44,4 +44,28 @@ troisieme_douxaine = [25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36]
 def getCouleur(numero):
     return numero_couleur[numero]
 
+def estDansPremiereDouzaine(numeroAleatoire):
+    for premiere in premiere_douxaine:
+        if numeroAleatoire == premiere:
+            return True
+        else: continue
+    return False
+
+def estDansDeuxiemeDouzaine(numeroAleatoire):
+    for deuxieme in deuxieme_douxaine:
+        if numeroAleatoire == deuxieme:
+            return True
+        else: continue
+    return False
+
+def estDansTroisiemeDouzaine(numeroAleatoire):
+    for troisieme in troisieme_douxaine:
+        if numeroAleatoire == troisieme:
+            return True
+        else: continue
+    return False
+
+print(estDansPremiereDouzaine(5))
+print(estDansDeuxiemeDouzaine(15))
+print(estDansTroisiemeDouzaine(5))
 
