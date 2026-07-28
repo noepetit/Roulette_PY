@@ -20,7 +20,6 @@ def dmd_solde_total():
     print("Vous avez : ", solde, "€ !")
     return solde
 
-
 def start(soldeTotal):
     if soldeTotal == 0:
         print(f"\033[31m{"Vous n'avez plus de crédit, au revoir..."}\033[0m")
@@ -36,7 +35,6 @@ def start(soldeTotal):
             start(soldeTotal)
     except ValueError:
         start(soldeTotal)
-
 
 #---------------------      fonction de main
 def pari(paris, soldeTotal):
@@ -82,6 +80,8 @@ def choix_montant(soldeTotal):
     except ValueError:
         print(f"\033[31m{"Nombre invalide !"}\033[0m")
         return choix_montant(soldeTotal)
+
+#set pari :
 
 def pariNumero(paris, soldeTotal):
 
@@ -181,13 +181,14 @@ def pariManquePasse(paris, soldeTotal):
         if pariJ == "passe": paris.append(("Manque/passe", "passe", montant))
         # else: return pari(paris, soldeTotal)
         print(f"\033[32m{"Pari ajouté !"}\033[0m")
-        if soldeTotal == 0: return finPari(paris, soldeTotal)  ### aller sur la fin de pari -> solde à 0
+        if soldeTotal == 0: return finPari(paris, soldeTotal)
         return pari(paris, soldeTotal)
     except ValueError:
         print(f"\033[31m{"Pari invalide !"}\033[0m")
         return pariManquePasse(paris, soldeTotal)
 
 #---------------------      Validation pari
+
 def finPari(paris, soldeTotal):
     print("-------------------------    FIN DU PARI    --------------------------")
     if paris == []:
@@ -219,7 +220,7 @@ def identificationPari(paris, soldeTotal):
                     soldeTotal = pariIDManquePasse(pariJ, soldeTotal, nombreAleatoire)
     start(soldeTotal)
 
-
+# Identification des paris fait :
 
 def pariIDNumero(pariJ, soldeTotal, nombreAleatoire):
     numeroJ = pariJ[1]
@@ -325,13 +326,6 @@ def pariIDManquePasse(pariJ, soldeTotal, nombreAleatoire):
                 print(f"\033[31m{"Pari perdu,"}\033[0m", "le nombre était : \"", nombreAleatoire,
                       "\", il n'est donc pas entre 19 et 36 !\n")
     return soldeTotal
-
-
-#---------------------      Main
-#def main(soldeTotal):
-#    pari(paris = [], soldeTotal = soldeTotal)
-
-
 
 
 if __name__ == '__main__':
