@@ -65,7 +65,4 @@ def estDansTroisiemeDouzaine(numeroAleatoire):
         else: continue
     return False
 
-print(estDansPremiereDouzaine(5))
-print(estDansDeuxiemeDouzaine(15))
-print(estDansTroisiemeDouzaine(5))
 
