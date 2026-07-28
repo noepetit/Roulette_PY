@@ -12,18 +12,23 @@ def dmd_solde_total():
     try :
         solde = int(input("Entrez votre solde : "))
     except ValueError:
+        print(f"\033[31m{"Montant invalide !"}\033[0m")
         return  dmd_solde_total()
     if solde < 1 or solde > 5000:
+        print(f"\033[31m{"Montant invalide !"}\033[0m")
         return dmd_solde_total()
     print("Vous avez : ", solde, "€ !")
     return solde
 
 
 def start(soldeTotal):
+    if soldeTotal == 0:
+        print(f"\033[31m{"Vous n'avez plus de crédit, au revoir..."}\033[0m")
+        exit()
     try:
         ready = input("Êtes vous près ? (oui/non)")
         if ready == "oui":
-            main(soldeTotal)
+            pari(paris = [], soldeTotal = soldeTotal)
         if ready == "non":
             print("pourquoi faire ??????")
             exit()
@@ -100,7 +105,7 @@ def pariNumero(paris, soldeTotal):
 
 def pariCouleur(paris, soldeTotal):
     try:
-        pariJ = str(input("Entrez une couleur sur laquel vous voulez parier : "))
+        pariJ = str(input("Entrez une couleur sur laquelle vous voulez parier : "))
         if pariJ == "-1":
             return pari(paris, soldeTotal)
         if pariJ != "rouge" and pariJ != "noir":
@@ -185,15 +190,19 @@ def pariManquePasse(paris, soldeTotal):
 #---------------------      Validation pari
 def finPari(paris, soldeTotal):
     print("-------------------------    FIN DU PARI    --------------------------")
-    for tuple in paris:
-        for i in tuple:
-            print(i, end=" | ")
-
-    identificationPari(paris, soldeTotal)
+    if paris == []:
+        print(f"\033[31m{"Vous n'avez pas parié !"}\033[0m")
+        exit()
+    else :
+        print("Vos paris : ", end=" ")
+        for tuple in paris:
+            for i in tuple:
+                print(i, end=" | ")
+        identificationPari(paris, soldeTotal)
 
 def identificationPari(paris, soldeTotal):
     nombreAleatoire = genererNombreAleatoire()
-    print(nombreAleatoire)
+    print("\nLe nombre tiré est : ", nombreAleatoire)
     for pariJ in paris:
         for pariNum in pariJ:
 
@@ -208,7 +217,7 @@ def identificationPari(paris, soldeTotal):
                     soldeTotal = pariIDDouzaine(pariJ, soldeTotal, nombreAleatoire)
                 case "Manque/passe":
                     soldeTotal = pariIDManquePasse(pariJ, soldeTotal, nombreAleatoire)
-    main(soldeTotal)
+    start(soldeTotal)
 
 
 
@@ -217,10 +226,11 @@ def pariIDNumero(pariJ, soldeTotal, nombreAleatoire):
     montantJN = pariJ[2]
     if numeroJ == nombreAleatoire:
         soldeTotal = soldeTotal + (montantJN * 35)  # verifié si 35 ou 36
-        print("Pari numero gagné !\nVous avez donc : ", soldeTotal,
-              "nombre utilisateur :", numeroJ, "num aleatoire :", nombreAleatoire)
+        print(f"\033[32m{"Pari gagnant !"}\033[0m", "Vous avez choisi le nombre", numeroJ, ".")
+        print("La couleur de", nombreAleatoire, "est \"", couleur.getCouleur(nombreAleatoire), "\"")
+        print("Vous avez donc : ", soldeTotal, "€\n")
     else:
-        print("pari perdu", nombreAleatoire)
+        print(f"\033[31m{"Pari perdu,"}\033[0m","votre pari portant sur le numéro \"", numeroJ, "\" est perdant !\n")
     return soldeTotal
 
 def pariIDCouleur(pariJ, soldeTotal, nombreAleatoire):
@@ -228,49 +238,69 @@ def pariIDCouleur(pariJ, soldeTotal, nombreAleatoire):
     montantJC = pariJ[2]
     if couleurJ == couleur.getCouleur(nombreAleatoire):
         soldeTotal = soldeTotal + (montantJC * 2)
-        print("Pari couleur gagné !\nVous avez donc : ", soldeTotal,
-              ", couleur utilisateur :", couleurJ, "couleur de", nombreAleatoire ," :", couleur.getCouleur(nombreAleatoire))
+        print(f"\033[32m{"Pari gagnant !"}\033[0m", "Vous avez choisi la couleur",couleurJ,".")
+        print("La couleur de",nombreAleatoire,"est \"",couleur.getCouleur(nombreAleatoire), "\"")
+        print("Vous avez donc : ", soldeTotal, "€\n")
     else:
-        print("pari perdu", couleur.getCouleur(nombreAleatoire))
+        print(f"\033[31m{"Pari perdu,"}\033[0m", "le nombre était : \"", nombreAleatoire,
+              "\"ce qui ne correspond pas à votre pari !\n")
     return soldeTotal
 
 def pariIDPairImpair(pariJ, soldeTotal, nombreAleatoire):
     montantJPI = pariJ[2]
     if nombreAleatoire % 2 == 0 and pariJ[1] == "pair":
         soldeTotal = soldeTotal + (montantJPI * 2)
-        print("Pari pair gagné !\nVous avez donc : ", soldeTotal, nombreAleatoire)
-        #print("ii", nombreAleatoire)
+        print(f"\033[32m{"Pari gagnant !"}\033[0m", "Vous avez parié sur \"pair\".")
+        print("Le numéro", nombreAleatoire, "est \"pair\"")
+        print("Vous avez donc : ", soldeTotal, "€\n")
     elif nombreAleatoire % 2 != 0 and pariJ[1] == "impair":
         soldeTotal = soldeTotal + (montantJPI * 2)
-        print("Pari impair gagné !\nVous avez donc : ", soldeTotal, nombreAleatoire)
+        print(f"\033[32m{"Pari gagnant !"}\033[0m", "Vous avez parié sur \"impair\".")
+        print("Le numéro", nombreAleatoire, "est \"impair\"")
+        print("Vous avez donc : ", soldeTotal, "€\n")
     else :
-        print("pari perdu", nombreAleatoire)
+        print(f"\033[31m{"Pari perdu,"}\033[0m", "le nombre était : \"", nombreAleatoire,
+              "\" ce qui ne correspond pas à votre pari !\n")
     return soldeTotal
 
 def pariIDDouzaine(pariJ, soldeTotal, nombreAleatoire):
     montantJD = pariJ[2]
+    verif = False
     match pariJ[1]:
         case "1ere12":
             for premiere in couleur.premiere_douxaine:
                 if nombreAleatoire == premiere:
                     soldeTotal = soldeTotal + (montantJD * 3)
-                    print("pari gagné !\nVous avez donc : ", soldeTotal)
+                    print(f"\033[32m{"Pari gagnant !"}\033[0m", "Vous avez parié sur la \"première douzaine\".")
+                    print("Le numéro", nombreAleatoire, "est bien dans la \"première douzaine\"")
+                    print("Vous avez donc : ", soldeTotal, "€\n")
+                    verif = True
                 else:
                     continue
         case "2eme12":
             for deuxieme in couleur.deuxieme_douxaine:
                 if nombreAleatoire == deuxieme:
                     soldeTotal = soldeTotal + (montantJD * 3)
-                    print("pari gagné !\nVous avez donc : ", soldeTotal)
+                    print(f"\033[32m{"Pari gagnant !"}\033[0m", "Vous avez parié sur la \"deuxième douzaine\".")
+                    print("Le numéro", nombreAleatoire, "est bien dans la \"deuxième douzaine\"")
+                    print("Vous avez donc : ", soldeTotal, "€\n")
+                    verif = True
                 else:
                     continue
         case "3eme12":
             for troisieme in couleur.troisieme_douxaine:
                 if nombreAleatoire == troisieme:
                     soldeTotal = soldeTotal + (montantJD * 3)
-                    print("pari gagné !\nVous avez donc : ", soldeTotal)
+                    print(f"\033[32m{"Pari gagnant !"}\033[0m", "Vous avez parié sur la \"troisème douzaine\".")
+                    print("Le numéro", nombreAleatoire, "est bien dans la \"troisème douzaine\"")
+                    print("Vous avez donc : ", soldeTotal, "€\n")
+                    verif = True
                 else:
                     continue
+    if not verif:
+        print(f"\033[31m{"Pari perdu,"}\033[0m", "le nombre était : \"", nombreAleatoire,
+              "\" ce qui ne correspond pas à votre pari !\n")
+
     return soldeTotal
 
 def pariIDManquePasse(pariJ, soldeTotal, nombreAleatoire):
@@ -279,23 +309,27 @@ def pariIDManquePasse(pariJ, soldeTotal, nombreAleatoire):
         case "manque":
             if 1 <= nombreAleatoire <= 18:
                 soldeTotal = soldeTotal + (montantJD * 2)
-                print("pari gagné !\nVous avez donc : ", soldeTotal)
+                print(f"\033[32m{"Pari gagnant !"}\033[0m", "Vous avez parié sur \"manque\" donc de \"1 à 18\".")
+                print("Le numéro", nombreAleatoire, "est bien dans l'intervalle de \"1 à 18\"")
+                print("Vous avez donc : ", soldeTotal, "€\n")
             else:
-                print("pari perdu", nombreAleatoire)
+                print(f"\033[31m{"Pari perdu,"}\033[0m", "le nombre était : \"", nombreAleatoire,
+                      "\", il n'est donc pas entre 1 et 18 !\n")
         case "passe":
             if 19 <= nombreAleatoire <= 36:
                 soldeTotal = soldeTotal + (montantJD * 2)
-                print("pari gagné !\nVous avez donc : ", soldeTotal)
+                print(f"\033[32m{"Pari gagnant !"}\033[0m", "Vous avez parié sur \"passe\" donc de \"19 à 36\".")
+                print("Le numéro", nombreAleatoire, "est bien dans l'intervalle de \"19 à 36\"")
+                print("Vous avez donc : ", soldeTotal, "€\n")
             else:
-                print("pari perdu ixi", nombreAleatoire)
+                print(f"\033[31m{"Pari perdu,"}\033[0m", "le nombre était : \"", nombreAleatoire,
+                      "\", il n'est donc pas entre 19 et 36 !\n")
     return soldeTotal
 
 
 #---------------------      Main
-def main(soldeTotal):
-    #while True :
-    nombreAleatoire = genererNombreAleatoire()
-    pari(paris = [], soldeTotal = soldeTotal)
+#def main(soldeTotal):
+#    pari(paris = [], soldeTotal = soldeTotal)
 
 
 
