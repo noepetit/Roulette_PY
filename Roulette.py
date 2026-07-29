@@ -28,8 +28,8 @@ def start(soldeTotal):
         ready = input("Êtes vous près ? (oui/non)")
         if ready == "oui":
             pari(paris = [], soldeTotal = soldeTotal)
-        if ready == "non":
-            print("pourquoi faire ??????")
+        elif ready == "non":
+            print("Rien ne va plus !")
             exit()
         else:
             start(soldeTotal)
@@ -41,14 +41,14 @@ def pari(paris, soldeTotal):
     affichage_Matrice()
     print("Il vous reste ", soldeTotal, " crédits !")
     try :
-        type = int(input("1- Numéro \n"
+        choix_pari = int(input("1- Numéro \n"
                      "2- Couleur \n"
                      "3- Pair / Impair \n"
                      "4- Douzaine \n"
                      "5- 1 à 18 ou 19 à 36 \n"
                      "0- Pour arrêter le pari \n"))
 
-        match type:
+        match choix_pari:
             case 1:
                 pariNumero(paris, soldeTotal)
             case 2:
@@ -193,7 +193,7 @@ def finPari(paris, soldeTotal):
     print("-------------------------    FIN DU PARI    --------------------------")
     if paris == []:
         print(f"\033[31m{"Vous n'avez pas parié !"}\033[0m")
-        exit()
+        pari(paris, soldeTotal)
     else :
         print("Vos paris : ", end=" ")
         for tuple in paris:
@@ -237,6 +237,12 @@ def pariIDNumero(pariJ, soldeTotal, nombreAleatoire):
 def pariIDCouleur(pariJ, soldeTotal, nombreAleatoire):
     couleurJ = pariJ[1]
     montantJC = pariJ[2]
+    if nombreAleatoire == 0:
+        soldeTotal = soldeTotal + (montantJC / 2)
+        print(f"\033[31m{"Pari perdu,"}\033[0m", "le nombre était : \"", nombreAleatoire,
+                      "\", il n'est donc pas rouge, ni noir, mais vert !\n")
+        return soldeTotal
+
     if couleurJ == couleur.getCouleur(nombreAleatoire):
         soldeTotal = soldeTotal + (montantJC * 2)
         print(f"\033[32m{"Pari gagnant !"}\033[0m", "Vous avez choisi la couleur",couleurJ,".")
@@ -244,11 +250,16 @@ def pariIDCouleur(pariJ, soldeTotal, nombreAleatoire):
         print("Vous avez donc : ", soldeTotal, "€\n")
     else:
         print(f"\033[31m{"Pari perdu,"}\033[0m", "le nombre était : \"", nombreAleatoire,
-              "\"ce qui ne correspond pas à votre pari !\n")
+              "\" ce qui ne correspond pas à votre pari !\n")
     return soldeTotal
 
 def pariIDPairImpair(pariJ, soldeTotal, nombreAleatoire):
     montantJPI = pariJ[2]
+    if nombreAleatoire == 0:
+        print(f"\033[31m{"Pari perdu,"}\033[0m", "le nombre était : \"", nombreAleatoire,
+                      "\", il n'est donc pas pair ou impair !\n")
+        return soldeTotal + (montantJPI / 2)
+
     if nombreAleatoire % 2 == 0 and pariJ[1] == "pair":
         soldeTotal = soldeTotal + (montantJPI * 2)
         print(f"\033[32m{"Pari gagnant !"}\033[0m", "Vous avez parié sur \"pair\".")
@@ -267,6 +278,10 @@ def pariIDPairImpair(pariJ, soldeTotal, nombreAleatoire):
 def pariIDDouzaine(pariJ, soldeTotal, nombreAleatoire):
     montantJD = pariJ[2]
     verif = False
+    if nombreAleatoire == 0:
+        print(f"\033[31m{"Pari perdu,"}\033[0m", "le nombre était : \"", nombreAleatoire,
+                      "\", il n'est donc pas compris dans les douzaines !\n")
+        return soldeTotal
     match pariJ[1]:
         case "1ere12":
             for premiere in couleur.premiere_douxaine:
@@ -306,6 +321,11 @@ def pariIDDouzaine(pariJ, soldeTotal, nombreAleatoire):
 
 def pariIDManquePasse(pariJ, soldeTotal, nombreAleatoire):
     montantJD = pariJ[2]
+    if nombreAleatoire == 0:
+        soldeTotal = soldeTotal + montantJD / 2
+        print(f"\033[31m{"Pari perdu,"}\033[0m", "le nombre était : \"", nombreAleatoire,
+                      "\", il n'est donc pas entre 1 et 36 !\n")
+        return soldeTotal
     match pariJ[1]:
         case "manque":
             if 1 <= nombreAleatoire <= 18:
@@ -336,3 +356,4 @@ if __name__ == '__main__':
     soldeTotal = dmd_solde_total()
     print()
     start(soldeTotal)
+
