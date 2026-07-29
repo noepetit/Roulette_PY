@@ -21,7 +21,7 @@ Ce projet à pour but de m'entrainer et de me sentir plus à l'aise en developpe
 Les règle sont identique à la roulette européenne en casino :
 * pari sur numéro, si gagnant (mise * 35) ;
 * pari sur la couleur, si pair ou impair, manque ou passe, si gagnant (mise * 2) ;
-    * Si 0 tombe (mise * 1/2) -> règle du partage.
+    * Si 0 tombe, mise perdu
 * pari sur les douzaines, si gagnant (mise * 3);
     * Si 0 tombe, mise perdu
 
