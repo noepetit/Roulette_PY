@@ -66,10 +66,10 @@ def pari(paris, soldeTotal):
                     soldeTotal = finPari(paris, soldeTotal)
                     return soldeTotal
                 case _:
-                    print(f"\033[31m{"Saisi invalide !"}\033[0m")
+                    print(f"\033[31m{"Cette saisie est invalide !"}\033[0m")
                     continue
         except ValueError:
-            print(f"\033[31m{"Saisi invalide !"}\033[0m")
+            print(f"\033[31m{"Cette saisie est invalide !"}\033[0m")
             continue
 
 def choixMontant(soldeTotal):
@@ -292,8 +292,8 @@ def pariIdDouzaine(pariJ, soldeTotal, nombreAleatoire):
             for troisieme in couleur.troisiemeDouxaine:
                 if nombreAleatoire == troisieme:
                     soldeTotal = soldeTotal + (montantJD * 3)
-                    print(f"\033[32m{"Pari gagnant !"}\033[0m", "Vous avez parié sur la \"troisème douzaine\".")
-                    print("Le numéro", nombreAleatoire, "est bien dans la \"troisème douzaine\"")
+                    print(f"\033[32m{"Pari gagnant !"}\033[0m", "Vous avez parié sur la \"troisième douzaine\".")
+                    print("Le numéro", nombreAleatoire, "est bien dans la \"troisième douzaine\"")
                     print("Vous avez donc : ", soldeTotal, "€\n")
                     verif = True
                 else:
@@ -337,7 +337,7 @@ if __name__ == '__main__':
     print("     |    Ceci est une roulette européenne, Rien ne vas plus !        |")
     print("     |----------------------------------------------------------------|")
     print()
-    soldeTotal = dmdSoldeTotal()
+    soldeTotalInitial = dmdSoldeTotal()
     print()
-    start(soldeTotal)
+    start(soldeTotalInitial)
 
