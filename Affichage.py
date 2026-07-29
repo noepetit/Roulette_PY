@@ -12,7 +12,7 @@ def colorier(nombre, color):
         return f"\033[32m{nombre:2}\033[0m"
     return f"\033[0m"
 
-def affichage_Matrice():
+def affichageMatrice():
     ligne1      = ["   |  ",f"\033[33m{"1ere 12"}\033[0m","  |  ",f"\033[33m{"2eme 12"}\033[0m","  |  ",f"\033[33m{"3eme 12"}\033[0m","  |"]
     separation  = ["---|-------------|-------------|-------------|"]
     pari_bas    = ["   | ",f"\033[33m{"1-18"}\033[0m"," | ",f"\033[33m{"PAIR"}\033[0m",
